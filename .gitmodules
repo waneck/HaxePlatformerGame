@@ -1,0 +1,3 @@
+[submodule "PlatformerGame/Plugins/UnrealHx"]
+	path = PlatformerGame/Plugins/UnrealHx
+	url = https://github.com/proletariatgames/unreal.hx.git

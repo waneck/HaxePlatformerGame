@@ -6,3 +6,10 @@ DerivedDataCache
 Build
 /*.xcodeproj
 /Makefile
+
+# Unreal.hx-specific files
+/Source/PlatformerGame/*.Build.cs
+Generated
+gen-*.hxml
+/uhxconfig.local
+export-classes.info
