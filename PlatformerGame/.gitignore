@@ -12,4 +12,4 @@ Build
 Generated
 gen-*.hxml
 /uhxconfig.local
-export-classes.info
+export_classes.info

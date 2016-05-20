@@ -24,7 +24,7 @@ void UPlatformerBlueprintLibrary::PrepareRace(class UObject* WorldContextObject)
 	APlatformerGameMode* const MyGame = GetGameFromContextObject(WorldContextObject);
 	if (MyGame)
 	{
-		MyGame->PrepareRound();
+		MyGame->PrepareRound(false);
 	}
 }
 

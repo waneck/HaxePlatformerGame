@@ -3,7 +3,7 @@
 #include "PlatformerGame.h"
 #include "PlatformerPlayerMovementComp.h"
 #include "PlatformerCharacter.h"
-#include "UI/PlatformerGameMode.h"
+#include "PlatformerGameMode.h"
 
 UPlatformerPlayerMovementComp::UPlatformerPlayerMovementComp(const FObjectInitializer& ObjectInitializer) 
 	: Super(ObjectInitializer)

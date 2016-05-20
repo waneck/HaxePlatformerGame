@@ -47,7 +47,7 @@ bool APlatformerPlayerController::TryStartingGame()
 	APlatformerGameMode* MyGame = GetWorld()->GetAuthGameMode<APlatformerGameMode>();
 	if (MyGame)
 	{
-		const EGameState::Type GameState = MyGame->GetGameState();
+		const EGameState GameState = MyGame->GetGameState();
 		switch (GameState)
 		{
 			case EGameState::Waiting:

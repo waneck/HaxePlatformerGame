@@ -264,7 +264,7 @@ void APlatformerHUD::DrawHUD()
 		DrawActiveMessages();
 
 		// round timer
-		EGameState::Type GameState = MyGame->GetGameState();
+		EGameState GameState = MyGame->GetGameState();
 		if (GameState == EGameState::Playing)
 		{
 			DisplayRoundTimer();
@@ -430,7 +430,7 @@ void APlatformerHUD::AddMessage(FString Message, float DisplayDuration, float Po
 		MsgData.TextScale = TextScale;
 		MsgData.bRedBorder = bRedBorder;
 
-		EGameState::Type GameState = MyGame->GetGameState();
+		EGameState GameState = MyGame->GetGameState();
 
 		if (GameState == EGameState::Finished)
 		{
