@@ -36,14 +36,13 @@ class GameMode extends AGameMode {
   public var MyGameState(default, null):EGameState;
 
   /** full screen picture info */
-  @:uexpose var PlatformerPicture:PPtr<Picture>;
+  @:uexpose public var PlatformerPicture:PPtr<Picture>;
 
   /** Handle for efficient management of StartRound timer */
   var TimerHandle_StartRound:FTimerHandle = FTimerHandle.create();
 
   /** the time player started this round */
   var RoundStartTime:Float32;
-
 
   /** true if round can be restarted after finishing */
   var bCanBeRestarted:Bool;
@@ -76,7 +75,7 @@ class GameMode extends AGameMode {
   }
 
   /** prepare game state and show HUD message */
-  @:uexpose public function PrepareRound(bRestarting = false):Void {
+  public function PrepareRound(bRestarting = false):Void {
     if (bRestarting) {
       OnRoundFinished.Broadcast();
     }
@@ -149,7 +148,7 @@ class GameMode extends AGameMode {
   }
 
   /** sets if round can be restarted */
-  @:uexpose public function SetCanBeRestarted(bAllowRestart:Bool):Void {
+  public function SetCanBeRestarted(bAllowRestart:Bool):Void {
     if (MyGameState == Finished) {
       bCanBeRestarted = bAllowRestart;
     }
@@ -170,7 +169,7 @@ class GameMode extends AGameMode {
   }
 
   /** save current time for checkpoint */
-  @:uexpose public function SaveCheckpointTime(CheckpointID:Int32):Void {
+  public function SaveCheckpointTime(CheckpointID:Int32):Void {
     if (CheckpointID < 0) {
       return;
     }
@@ -183,17 +182,17 @@ class GameMode extends AGameMode {
   }
 
   /** get checkpoint time: current round */
-  @:uexpose @:thisConst public function GetCurrentCheckpointTime(CheckpointID:Int32):Float32 {
+  @:thisConst public function GetCurrentCheckpointTime(CheckpointID:Int32):Float32 {
     return CheckpointID >= 0 && CheckpointID < CurrentTimes.Num() ? CurrentTimes[CheckpointID] : -1;
   }
 
   /** get checkpoint time: best */
-  @:uexpose public function GetBestCheckpointTime(CheckpointID:Int32):Float32 {
+  public function GetBestCheckpointTime(CheckpointID:Int32):Float32 {
     return CheckpointID >= 0 && CheckpointID < BestTimes.Num() ? BestTimes[CheckpointID] : -1;
   }
 
   /** get number of checkpoints */
-  @:uexpose @:thisConst public function GetNumCheckpoints():Int32 {
+  @:thisConst public function GetNumCheckpoints():Int32 {
     var i1 = CurrentTimes.Num(),
         i2 = BestTimes.Num();
     return i1 > i2 ? i1 : i2;
@@ -214,7 +213,7 @@ class GameMode extends AGameMode {
   }
 
   /** increases/decreases round duration by DeltaTime */
-  @:uexpose public function ModifyRoundDuration(DeltaTime:Float32, bIncrease:Bool):Void {
+  public function ModifyRoundDuration(DeltaTime:Float32, bIncrease:Bool):Void {
     if (IsRoundInProgress())
     {
       var PrevRoundStartTime = RoundStartTime;

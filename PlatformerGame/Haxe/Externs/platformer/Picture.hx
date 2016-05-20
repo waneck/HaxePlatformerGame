@@ -7,4 +7,9 @@ import unreal.*;
 @:uname("FPlatformerPicture")
 @:umodule("PlatformerGame")
 @:uextern extern class Picture {
+  @:uname(".ctor") static function create(world:UWorld):Picture;
+
+  function Show(Picture:UTexture2D, FadeInTime:Float32, ScreenCoverage:Float32, bKeepAspectRatio:Bool):Void;
+
+  function Hide(FadeOutTime:Float32):Void;
 }
