@@ -1,0 +1,26 @@
+{
+	"PluginFileVersion" : 3,
+
+	"FriendlyName" : "Foot IK Animation Node",
+	"Version" : 1,
+	"VersionName" : "1.0",
+	"CreatedBy" : "Epic Games, Inc.",
+	"CreatedByURL" : "http://epicgames.com",
+	"EngineVersion" : 1579795,
+	"Description" : "An example of creating a custom animation node",
+	"Category" : "Editor Features.Learning",
+	
+	"Modules" :
+	[
+		{
+			"Name" : "FootIKRuntime",
+			"Type" : "Runtime",
+			"LoadingPhase" : "PreDefault"
+		},
+		{
+			"Name" : "FootIKEditor",
+			"Type" : "Developer",
+			"LoadingPhase" : "PreDefault"
+		}
+	]
+}

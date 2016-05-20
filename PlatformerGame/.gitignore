@@ -1,0 +1,8 @@
+# Normal Unreal ignores
+Intermediate
+Binaries
+Saved
+DerivedDataCache
+Build
+/*.xcodeproj
+/Makefile
