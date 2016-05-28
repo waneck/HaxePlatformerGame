@@ -1,0 +1,184 @@
+<!-- This ant build file provides a convenient way to build the project through the command-line.
+     Please note that it is NOT necessary to build using these scripts - you may just build through the
+     Unreal Editor. However, sometimes Unreal fails to show the error messages, so you can use this to debug
+     what may be wrong -->
+<project name="platformer game" default="help" basedir="."
+  xmlns:if="ant:if"
+  xmlns:unless="ant:unless">
+
+  <property environment="env" />        
+
+  <condition property="isMac" value="true">
+    <os family="mac" />
+  </condition>
+  <condition property="isWindows" value="true">
+    <os family="windows" />
+  </condition>
+  <condition property="isUnix" value="true">
+    <and>
+      <os family="unix" />
+      <not>
+        <os family="mac" />
+      </not>
+    </and>
+  </condition>
+
+  <!-- unreal helpers -->
+  <macrodef name="call_unreal">
+    <element name="extArgs" optional="y"/>
+    <sequential if:true="${isMac}">
+      <fail unless="env.UE4" message="You must set the UE4 environment variable to point to your UnrealEngine installation" />
+      <exec executable="${env.UE4}/Engine/Binaries/Mac/UE4Editor.app/Contents/MacOS/UE4Editor" failonerror="true" >
+        <extArgs/>
+      </exec>
+    </sequential>
+    <sequential if:true="${isWindows}">
+      <fail unless="env.UE4" message="You must set the UE4 environment variable to point to your UnrealEngine installation" />
+      <exec executable="${env.UE4}/Engine/Binaries/Win64/UE4Editor.exe" failonerror="true" >
+        <extArgs/>
+      </exec>
+    </sequential>
+    <sequential if:true="${isUnix}">
+      <fail unless="env.UE4" message="You must set the UE4 environment variable to point to your UnrealEngine installation" />
+      <exec executable="${env.UE4}/Engine/Binaries/Linux/UE4Editor" failonerror="true" >
+        <extArgs/>
+      </exec>
+    </sequential>
+  </macrodef>
+
+  <macrodef name="call_unreal_build">
+    <attribute name="target" default="" />
+    <element name="extArgs" optional="y"/>
+    <sequential if:true="${isMac}">
+      <fail unless="env.UE4" message="You must set the UE4 environment variable to point to your UnrealEngine installation" />
+      <exec executable="Build/BatchFiles/Mac/RunMono.sh" dir="${env.UE4}/Engine" failonerror="true">
+        <env key="HAXE_COMPILATION_SERVER" value="${haxeport}" if:set="haxeport" />
+        <arg line="Binaries/DotNET/UnrealBuildTool.exe" />
+        <arg line="@{target}" if:blank="${@{target}}" />
+        <arg line="Mac" unless:blank="${@{target}}" />
+        <extArgs/>
+      </exec>
+    </sequential>
+    <sequential if:true="${isUnix}">
+      <fail unless="env.UE4" message="You must set the UE4 environment variable to point to your UnrealEngine installation" />
+      <exec executable="Engine/Build/BatchFiles/Linux/Build.sh" dir="${env.UE4}" failonerror="true">
+        <env key="HAXE_COMPILATION_SERVER" value="${haxeport}" if:set="haxeport" />
+        <arg line="@{target}" if:blank="${@{target}}" />
+        <arg line="Linux" unless:blank="${@{target}}" />
+        <extArgs/>
+      </exec>
+    </sequential>
+    <sequential if:true="${isWindows}">
+      <fail unless="env.UE4" message="You must set the UE4 environment variable to point to your UnrealEngine installation" />
+      <exec executable="Engine/Binaries/DotNET/UnrealBuildTool.exe" dir="${env.UE4}" failonerror="true" resolveexecutable="true">
+        <env key="HAXE_COMPILATION_SERVER" value="${haxeport}" if:set="haxeport" />
+        <arg line="@{target}" if:blank="${@{target}}" />
+        <arg line="Win64" unless:blank="${@{target}}" />
+        <extArgs/>
+      </exec>
+    </sequential>
+  </macrodef>
+
+  <macrodef name="call_unreal_cook">
+    <attribute name="target" default="" />
+    <element name="extArgs" optional="y"/>
+    <sequential if:true="${isMac}">
+      <fail unless="env.UE4" message="You must set the UE4 environment variable to point to your UnrealEngine installation" />
+      <exec executable="Engine/Build/BatchFiles/RunUAT.command" dir="${env.UE4}" failonerror="true">
+        <arg line="BuildCookRun" />
+        <arg line="-platform=@{target}" if:blank="${@{target}}" />
+        <arg line="-platform=Mac" unless:blank="${@{target}}" />
+        <extArgs/>
+      </exec>
+    </sequential>
+    <sequential if:true="${isUnix}">
+      <fail unless="env.UE4" message="You must set the UE4 environment variable to point to your UnrealEngine installation" />
+      <exec executable="Engine/Build/BatchFiles/RunUAT.command" dir="${env.UE4}" failonerror="true">
+        <arg line="BuildCookRun" />
+        <arg line="-platform=@{target}" if:blank="${@{target}}" />
+        <arg line="-platform=Linux" unless:blank="${@{target}}" />
+        <extArgs/>
+      </exec>
+    </sequential>
+    <sequential if:true="${isWindows}">
+      <fail unless="env.UE4" message="You must set the UE4 environment variable to point to your UnrealEngine installation" />
+      <exec executable="Engine/Build/BatchFiles/RunUAT.bat" dir="${env.UE4}" failonerror="true" resolveexecutable="true">
+        <arg line="BuildCookRun" />
+        <arg line="-platform=@{target}" if:blank="${@{target}}" />
+        <arg line="-platform=Win64" unless:blank="${@{target}}" />
+        <extArgs/>
+      </exec>
+    </sequential>
+  </macrodef>
+
+  <!-- actual targets -->
+  <target name="help">
+    <echo message="Targets : "/>
+    <echo message="build: builds the game using Unreal UBT" />
+    <echo message="build-cppia: builds only the cppia part" />
+    <echo message="build-cook: builds and cooks the game to run standalone"/>
+    <echo message="init-plugin: runs the init-plugin.hxml compilation"/>
+    <echo message="editor: runs the UE4 editor"/>
+  </target>
+
+  <target name="editor">
+    <call_unreal>
+      <extArgs>
+        <arg line="${user.dir}/PlatformerGame.uproject" />
+      </extArgs>
+    </call_unreal>
+  </target>
+
+  <target name="init-plugin">
+    <sequential>
+      <exec executable="haxe" dir="Plugins/UnrealHx" failonerror="true" resolveexecutable="true">
+        <arg line="init-plugin.hxml" />
+      </exec>
+    </sequential>
+  </target>
+
+  <target name="build" depends="init-plugin">
+    <property name="configuration" value="Development"/>
+    <call_unreal_build>
+      <extArgs>
+        <arg line="PlatformerGameEditor"/>
+        <arg line="${configuration}"/>
+        <arg line="-project=${user.dir}/PlatformerGame.uproject"/>
+      </extArgs>
+    </call_unreal_build>
+  </target>
+
+  <target name="build-cppia">
+    <sequential>
+      <exec executable="haxe" dir="Haxe" failonerror="true" resolveexecutable="true">
+        <arg line="gen-build-script.hxml" />
+      </exec>
+    </sequential>
+  </target>
+
+  <target name="build-cook" depends="init-plugin">
+    <property name="configuration" value="Development"/>
+    <call_unreal_build>
+      <extArgs>
+        <arg line="PlatformerGame"/>
+        <arg line="${configuration}"/>
+        <arg line="-project=${user.dir}/PlatformerGame.uproject"/>
+      </extArgs>
+    </call_unreal_build>
+    <call_unreal_cook>
+        <arg line="-project=${user.dir}/PlatformerGame.uproject"/>
+        <arg line="-clientconfig=${configuration}"/>
+        <arg line="-serverconfig=${configuration}"/>
+        <arg line="-cook"/>
+        <arg line="-allmaps"/>
+        <arg line="-stage"/>
+        <arg line="-pak"/>
+        <arg line="-archive"/>
+        <arg line="-prereqs"/>
+        <arg line="-archivedirectory=bin"/>
+        <arg line="-distribution"/>
+        <arg line="-crashreporter"/>
+    </call_unreal_cook>
+  </target>
+
+</project>
