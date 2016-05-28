@@ -7,5 +7,6 @@ import unreal.*;
 @:uname("APlatformerPlayerController")
 @:umodule("PlatformerGame")
 @:uextern extern class PlayerController extends APlayerController {
+  function TryStartingGame():Bool;
 }
 
