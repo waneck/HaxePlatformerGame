@@ -28,4 +28,4 @@ ant build
 This requires ant to be installed, and will build your project entirely through the command-line
 
 
-In order to compile and run this, you will need Haxe 3.3 and Unreal 4.11
+In order to compile and run this, you will need Haxe 3.3 and Unreal 4.11. If you're on Windows, Visual Studio 2015 is required.
