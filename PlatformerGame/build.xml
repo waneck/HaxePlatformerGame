@@ -131,7 +131,7 @@
 
   <target name="init-plugin">
     <sequential>
-      <exec executable="haxe" dir="Plugins/UnrealHx" failonerror="true" resolveexecutable="true">
+      <exec executable="haxe" dir="Plugins/UnrealHx" failonerror="true">
         <arg line="init-plugin.hxml" />
       </exec>
     </sequential>
@@ -150,7 +150,7 @@
 
   <target name="build-cppia">
     <sequential>
-      <exec executable="haxe" dir="Haxe" failonerror="true" resolveexecutable="true">
+      <exec executable="haxe" dir="Haxe" failonerror="true">
         <arg line="gen-build-script.hxml" />
       </exec>
     </sequential>
