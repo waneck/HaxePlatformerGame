@@ -13,19 +13,23 @@ UPlatformerGameUserSettings::UPlatformerGameUserSettings(const FObjectInitialize
 void UPlatformerGameUserSettings::ApplySettings(bool bCheckForCommandLineOverrides)
 {
 	Super::ApplySettings(bCheckForCommandLineOverrides);
-	if (GEngine && GEngine->GetMainAudioDevice())
+	FAudioDevice* MainAudioDevice = (GEngine ? GEngine->GetMainAudioDevice() : nullptr);
+	if (MainAudioDevice)
 	{
-		GEngine->GetMainAudioDevice()->TransientMasterVolume = SoundVolume;
+		MainAudioDevice->SetTransientMasterVolume(SoundVolume);
 	}
 }
 
 bool UPlatformerGameUserSettings::IsSoundVolumeDirty() const
 {
 	bool bIsDirty = false;
-	if (GEngine && GEngine->GetMainAudioDevice())
+	FAudioDevice* MainAudioDevice = (GEngine ? GEngine->GetMainAudioDevice() : nullptr);
+	if (MainAudioDevice)
 	{
-		float CurrentSoundVolume = GEngine->GetMainAudioDevice()->TransientMasterVolume;
-		bIsDirty = CurrentSoundVolume != GetSoundVolume();
+		// This will cause a stall, but it is relatively rare and there isn't really a better option right now
+		FAudioThreadSuspendContext AudioThreadSuspend;
+		const float CurrentSoundVolume = MainAudioDevice->GetTransientMasterVolume();
+		bIsDirty = (CurrentSoundVolume != GetSoundVolume());
 	}
 	return bIsDirty;
 }

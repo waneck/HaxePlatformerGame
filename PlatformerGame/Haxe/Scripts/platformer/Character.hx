@@ -22,7 +22,7 @@ class Character extends ACharacter {
     super.PostInitializeComponents();
 
     // setting initial rotation
-    SetActorRotation(FRotator.createWithValues(0,0,0));
+    SetActorRotation(FRotator.createWithValues(0,0,0), None);
   }
 
   /** perform position adjustments */

@@ -15,17 +15,11 @@ public class PlatformerGameEditorTarget : TargetRules
 	//
 
 	public override void SetupBinaries(
-		TargetInfo Target,
-		ref List<UEBuildBinaryConfiguration> OutBuildBinaryConfigurations,
-		ref List<string> OutExtraModuleNames
-		)
+			TargetInfo Target,
+			ref List<UEBuildBinaryConfiguration> OutBuildBinaryConfigurations,
+			ref List<string> OutExtraModuleNames
+			)
 	{
 		OutExtraModuleNames.Add("PlatformerGame");
-    }
-    public override GUBPProjectOptions GUBP_IncludeProjectInPromotedBuild_EditorTypeOnly(UnrealTargetPlatform HostPlatform)
-    {
-        var Result = new GUBPProjectOptions();
-        Result.bIsPromotable = true;
-        return Result;
-    }
+	}
 }

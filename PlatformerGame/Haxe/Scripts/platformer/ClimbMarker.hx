@@ -17,9 +17,9 @@ class ClimbMarker extends AActor {
     RootComponent = SceneComp;
 
     Mesh = init.CreateDefaultSubobject(new TypeParam<UStaticMeshComponent>(), this, "ClimbMesh", false);
-    Mesh.StaticMesh = ClimbMarkerOb.Object;
+    Mesh.SetStaticMesh(ClimbMarkerOb.Object);
     Mesh.RelativeScale3D = new FVector(0.25, 1.0, 0.25);
-    Mesh.AttachParent = SceneComp;
+    Mesh.SetupAttachment(SceneComp, FName.createInt(NAME_None));
   }
 
   inline public function GetMesh() {
